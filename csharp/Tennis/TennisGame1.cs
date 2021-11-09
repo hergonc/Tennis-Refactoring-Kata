@@ -7,6 +7,14 @@ namespace Tennis
         public int MScore1 { get; set; }
 
         public int MScore2 { get; set; }
+        
+        private enum Score
+        {
+            Love = 0,
+            Fifteen = 1,
+            Thirty = 2,
+            Forty = 3
+        }
 
         public string GetScore()
         {
@@ -34,12 +42,6 @@ namespace Tennis
                 MScore2++;
         }
 
-        private enum Score
-        {
-            Love = 0,
-            Fifteen = 1,
-            Thirty = 2
-        }
         private string Draw()
         {
             return MScore1 < 3 
@@ -60,34 +62,7 @@ namespace Tennis
 
         private string GameScoreBoard()
         {
-            string score = "";
-            int tempScore;
-            for (var i = 1; i < 3; i++)
-            {
-                if (i == 1) tempScore = MScore1;
-                else
-                {
-                    score += "-";
-                    tempScore = MScore2;
-                }
-                switch (tempScore)
-                {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
-
-            return score;
+            return ((Score)MScore1).ToString() + "-" + ((Score)MScore2).ToString();
         }
     }
 
