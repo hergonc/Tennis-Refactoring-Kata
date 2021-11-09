@@ -22,43 +22,33 @@ namespace Tennis
             this.player2Name = player2Name;
         }
 
-        public string GetScore()
-        {
-            string score = "";
-            if (m_score1 == m_score2)
-            {
-                score = Draw();
-            }
-            else if (m_score1 >= 4 || m_score2 >= 4)
-            {
-                score = AdvantageOrEndOfGame();
-            }
-            else
-            {
-                score = GameScoreBoard();
-            }
-            return score;
-        }
+        public string GetScore() => 
+            m_score1 == m_score2
+                ? Tie()
+                : ScoreBoard();
 
         public void WonPoint(string playerName) => _ =
             playerName == player1Name
                 ? m_score1++
                 : m_score2++;
 
-        private string Draw() =>
+        private string Tie() =>
             m_score1 < 3
                 ? ((Score)m_score1).ToString() + "-All"
                 : "Deuce";
 
         private string AdvantageOrEndOfGame() =>
-            (Math.Abs(m_score1 - m_score2) == 1 
-                ? "Advantage " 
+            (Math.Abs(m_score1 - m_score2) == 1
+                ? "Advantage "
                 : "Win for ")
-                + (m_score1 - m_score2 > 0 
-                    ? player1Name 
+                + (m_score1 - m_score2 > 0
+                    ? player1Name
                     : player2Name);
 
-        private string GameScoreBoard() => ((Score)m_score1).ToString() + "-" + ((Score)m_score2).ToString();
+        private string ScoreBoard() => 
+            m_score1 >= 4 || m_score2 >= 4
+                ? AdvantageOrEndOfGame()
+                : ((Score)m_score1).ToString() + "-" + ((Score)m_score2).ToString();
     }
 }
 
