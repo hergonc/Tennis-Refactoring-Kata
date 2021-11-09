@@ -2,12 +2,8 @@ using System;
 
 namespace Tennis
 {
-    class ScoreBoard
+    class TennisGame1 : ITennisGame
     {
-        public int MScore1 { get; set; }
-
-        public int MScore2 { get; set; }
-        
         private enum Score
         {
             Love = 0,
@@ -15,15 +11,25 @@ namespace Tennis
             Thirty = 2,
             Forty = 3
         }
+        private string player1Name;
+        private string player2Name;
+        private int m_score1;
+        private int m_score2;
+
+        public TennisGame1(string player1Name, string player2Name)
+        {
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+        }
 
         public string GetScore()
         {
             string score = "";
-            if (MScore1 == MScore2)
+            if (m_score1 == m_score2)
             {
                 score = Draw();
             }
-            else if (MScore1 >= 4 || MScore2 >= 4)
+            else if (m_score1 >= 4 || m_score2 >= 4)
             {
                 score = AdvantageOrEndOfGame();
             }
@@ -37,56 +43,28 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                MScore1++;
+                m_score1++;
             else
-                MScore2++;
+                m_score2++;
         }
 
         private string Draw()
         {
-            return MScore1 < 3 
-                ? ((Score) MScore1).ToString() + "-All" 
+            return m_score1 < 3
+                ? ((Score)m_score1).ToString() + "-All"
                 : "Deuce";
         }
 
         private string AdvantageOrEndOfGame()
         {
-            string score;
-            var minusResult = MScore1 - MScore2;
-            if (minusResult == 1) score = "Advantage player1";
-            else if (minusResult == -1) score = "Advantage player2";
-            else if (minusResult >= 2) score = "Win for player1";
-            else score = "Win for player2";
-            return score;
+            var minusResult = m_score1 - m_score2;
+            return (Math.Abs(minusResult) == 1 ? "Advantage " : "Win for ")
+                   + (minusResult > 0 ? player1Name : player2Name);
         }
 
         private string GameScoreBoard()
         {
-            return ((Score)MScore1).ToString() + "-" + ((Score)MScore2).ToString();
-        }
-    }
-
-    class TennisGame1 : ITennisGame
-    {
-        private string player1Name;
-        private string player2Name;
-        private readonly ScoreBoard scoreBoard;
-
-        public TennisGame1(string player1Name, string player2Name)
-        {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
-            scoreBoard = new ScoreBoard();
-        }
-
-        public void WonPoint(string playerName)
-        {
-            scoreBoard.WonPoint(playerName);
-        }
-
-        public string GetScore()
-        {
-            return scoreBoard.GetScore();
+            return ((Score)m_score1).ToString() + "-" + ((Score)m_score2).ToString();
         }
     }
 }
