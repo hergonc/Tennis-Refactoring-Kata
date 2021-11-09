@@ -40,32 +40,25 @@ namespace Tennis
             return score;
         }
 
-        public void WonPoint(string playerName)
-        {
-            if (playerName == "player1")
-                m_score1++;
-            else
-                m_score2++;
-        }
+        public void WonPoint(string playerName) => _ =
+            playerName == player1Name
+                ? m_score1++
+                : m_score2++;
 
-        private string Draw()
-        {
-            return m_score1 < 3
+        private string Draw() =>
+            m_score1 < 3
                 ? ((Score)m_score1).ToString() + "-All"
                 : "Deuce";
-        }
 
-        private string AdvantageOrEndOfGame()
-        {
-            var minusResult = m_score1 - m_score2;
-            return (Math.Abs(minusResult) == 1 ? "Advantage " : "Win for ")
-                   + (minusResult > 0 ? player1Name : player2Name);
-        }
+        private string AdvantageOrEndOfGame() =>
+            (Math.Abs(m_score1 - m_score2) == 1 
+                ? "Advantage " 
+                : "Win for ")
+                + (m_score1 - m_score2 > 0 
+                    ? player1Name 
+                    : player2Name);
 
-        private string GameScoreBoard()
-        {
-            return ((Score)m_score1).ToString() + "-" + ((Score)m_score2).ToString();
-        }
+        private string GameScoreBoard() => ((Score)m_score1).ToString() + "-" + ((Score)m_score2).ToString();
     }
 }
 
