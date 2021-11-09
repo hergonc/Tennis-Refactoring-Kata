@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     class ScoreBoard
@@ -24,26 +26,25 @@ namespace Tennis
             return score;
         }
 
+        public void WonPoint(string playerName)
+        {
+            if (playerName == "player1")
+                MScore1++;
+            else
+                MScore2++;
+        }
+
+        private enum Score
+        {
+            Love = 0,
+            Fifteen = 1,
+            Thirty = 2
+        }
         private string Draw()
         {
-            string score;
-            switch (MScore1)
-            {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
-            }
-
-            return score;
+            return MScore1 < 3 
+                ? ((Score) MScore1).ToString() + "-All" 
+                : "Deuce";
         }
 
         private string AdvantageOrEndOfGame()
@@ -105,10 +106,7 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
-            if (playerName == "player1")
-                scoreBoard.MScore1 += 1;
-            else
-                scoreBoard.MScore2 += 1;
+            scoreBoard.WonPoint(playerName);
         }
 
         public string GetScore()
