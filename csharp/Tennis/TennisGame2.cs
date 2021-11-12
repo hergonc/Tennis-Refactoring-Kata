@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Tennis
 {
     public class TennisGame2 : ITennisGame
@@ -95,14 +97,7 @@ namespace Tennis
             return score;
         }
 
-        public void WonPoint(string player)
-        {
-            if (player == "player1")
-                p1point++;
-            else
-                p2point++;
-        }
-
+        public void WonPoint(string player) => _ = player == "player1" ? p1point++ : p2point++;
     }
 }
 
