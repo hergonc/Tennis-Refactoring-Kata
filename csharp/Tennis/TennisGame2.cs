@@ -15,13 +15,7 @@ namespace Tennis
             var score = "";
             if (p1point == p2point && p1point < 3)
             {
-                if (p1point == 0)
-                    score = "Love";
-                if (p1point == 1)
-                    score = "Fifteen";
-                if (p1point == 2)
-                    score = "Thirty";
-                score += "-All";
+                score = EqualsScore();
             }
             if (p1point == p2point && p1point > 2)
                 score = "Deuce";
@@ -96,6 +90,15 @@ namespace Tennis
             }
             return score;
         }
+
+        private string EqualsScore() =>
+            p1point switch
+            {
+                0 => "Love",
+                1 => "Fifteen",
+                2 => "Thirty",
+                _ => ""
+            } + "-All";
 
         public void WonPoint(string player) => _ = player == "player1" ? p1point++ : p2point++;
     }
