@@ -4,103 +4,71 @@ namespace Tennis
 {
     public class TennisGame2 : ITennisGame
     {
-        private int p1point = 0;
-        private int p2point;
-
-        private string p1res = "";
-        private string p2res = "";
+        private int player1Point;
+        private int player2Point;
 
         public string GetScore()
         {
             var score = "";
-            if (p1point == p2point && p1point < 3)
+            if (player1Point == player2Point && player1Point < 3)
             {
                 score = EqualsScore();
             }
-            if (p1point == p2point && p1point > 2)
+            if (player1Point == player2Point && player1Point > 2)
                 score = "Deuce";
 
-            if (p1point > 0 && p2point == 0)
+            if (player1Point > 0 && player2Point == 0)
             {
-                if (p1point == 1)
-                    p1res = "Fifteen";
-                if (p1point == 2)
-                    p1res = "Thirty";
-                if (p1point == 3)
-                    p1res = "Forty";
-
-                p2res = "Love";
-                score = p1res + "-" + p2res;
+                score = PointToScore(player1Point) +"-" + PointToScore(player2Point);
             }
-            if (p2point > 0 && p1point == 0)
+            if (player2Point > 0 && player1Point == 0)
             {
-                if (p2point == 1)
-                    p2res = "Fifteen";
-                if (p2point == 2)
-                    p2res = "Thirty";
-                if (p2point == 3)
-                    p2res = "Forty";
-
-                p1res = "Love";
-                score = p1res + "-" + p2res;
+                score = PointToScore(player1Point) + "-" + PointToScore(player2Point);
             }
 
-            if (p1point > p2point && p1point < 4)
+            if (player1Point > player2Point && player1Point < 4)
             {
-                if (p1point == 2)
-                    p1res = "Thirty";
-                if (p1point == 3)
-                    p1res = "Forty";
-                if (p2point == 1)
-                    p2res = "Fifteen";
-                if (p2point == 2)
-                    p2res = "Thirty";
-                score = p1res + "-" + p2res;
+                score = PointToScore(player1Point) + "-" + PointToScore(player2Point);
             }
-            if (p2point > p1point && p2point < 4)
+            if (player2Point > player1Point && player2Point < 4)
             {
-                if (p2point == 2)
-                    p2res = "Thirty";
-                if (p2point == 3)
-                    p2res = "Forty";
-                if (p1point == 1)
-                    p1res = "Fifteen";
-                if (p1point == 2)
-                    p1res = "Thirty";
-                score = p1res + "-" + p2res;
+                score = PointToScore(player1Point) + "-" + PointToScore(player2Point);
             }
 
-            if (p1point > p2point && p2point >= 3)
+            if (player1Point > player2Point && player2Point >= 3)
             {
                 score = "Advantage player1";
             }
 
-            if (p2point > p1point && p1point >= 3)
+            if (player2Point > player1Point && player1Point >= 3)
             {
                 score = "Advantage player2";
             }
 
-            if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
+            if (player1Point >= 4 && player2Point >= 0 && (player1Point - player2Point) >= 2)
             {
                 score = "Win for player1";
             }
-            if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
+            if (player2Point >= 4 && player1Point >= 0 && (player2Point - player1Point) >= 2)
             {
                 score = "Win for player2";
             }
             return score;
         }
 
-        private string EqualsScore() =>
-            p1point switch
+        private string PointToScore(int point) =>
+            point switch
             {
                 0 => "Love",
                 1 => "Fifteen",
                 2 => "Thirty",
+                3 => "Forty",
                 _ => ""
-            } + "-All";
+            };
 
-        public void WonPoint(string player) => _ = player == "player1" ? p1point++ : p2point++;
+        private string EqualsScore() => PointToScore(player1Point) + "-All";
+
+        public void WonPoint(string player) => _ = player == "player1" ? player1Point++ : player2Point++;
     }
 }
 
